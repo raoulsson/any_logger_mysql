@@ -4,7 +4,7 @@ description: >-
   automatic table creation, rotation, custom fields, and comprehensive query capabilities 
   for log analysis and audit trails.
 
-version: 1.0.0
+version: 1.0.1
 
 homepage: https://github.com/raoulsson/any_logger_mysql
 repository: https://github.com/raoulsson/any_logger_mysql
