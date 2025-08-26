@@ -1,0 +1,38 @@
+name: any_logger_mysql
+description: >-
+  An extension for any_logger that stores log records in MySQL databases. Supports batching, 
+  automatic table creation, rotation, custom fields, and comprehensive query capabilities 
+  for log analysis and audit trails.
+
+version: 1.0.0
+
+homepage: https://github.com/raoulsson/any_logger_mysql
+repository: https://github.com/raoulsson/any_logger_mysql
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  windows:
+
+dependencies:
+  any_logger: ^1.0.4
+  mysql1: ^0.20.0
+
+dev_dependencies:
+  test: ^1.24.0
+
+topics:
+  - logging
+  - mysql
+  - database
+  - audit
+  - analytics
+
+funding:
+  - https://github.com/sponsors/raoulsson
+  - https://www.buymeacoffee.com/raoulsson
