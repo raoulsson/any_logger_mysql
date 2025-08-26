@@ -1,10 +1,8 @@
 name: any_logger_mysql
 description: >-
-  An extension for any_logger that stores log records in MySQL databases. Supports batching, 
-  automatic table creation, rotation, custom fields, and comprehensive query capabilities 
-  for log analysis and audit trails.
+  Store logs in MySQL with automatic table management, batching, rotation, and query API. Perfect for audit trails and log analysis.
 
-version: 1.0.2
+version: 1.0.3
 
 homepage: https://github.com/raoulsson/any_logger_mysql
 repository: https://github.com/raoulsson/any_logger_mysql
