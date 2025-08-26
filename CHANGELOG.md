@@ -3,7 +3,7 @@
 ## 1.0.2
 
 * Depend on any_logger ^1.0.6
-* 
+
 ## 1.0.1
 
 * Updated README
