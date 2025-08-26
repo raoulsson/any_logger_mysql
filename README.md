@@ -530,4 +530,4 @@ Part of the [Any Logger](https://pub.dev/packages/any_logger) ecosystem.
 
 ---
 
-**Log Everything, Query Anything! 🗄️**
+**Happy Logging! 🎉**
