@@ -21,11 +21,16 @@ dependencies:
   any_logger_mysql: ^x.y.z  // See Installing
 ```
 
-The MySQL appender auto-registers when imported:
+To register the MySQL appender you have to import the library
 
 ```dart
 import 'package:any_logger/any_logger.dart';
 import 'package:any_logger_mysql/any_logger_mysql.dart';
+```
+and call:
+
+```dart
+AnyLoggerMySqlExtension.register();
 ```
 
 ## Quick Start
