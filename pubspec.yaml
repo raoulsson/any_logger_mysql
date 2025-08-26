@@ -20,7 +20,7 @@ platforms:
   windows:
 
 dependencies:
-  any_logger: ^1.0.5
+  any_logger: ^1.0.6
   mysql1: ^0.20.0
 
 dev_dependencies:
