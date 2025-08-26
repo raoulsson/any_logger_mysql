@@ -65,8 +65,9 @@ extension MySqlLoggerBuilderExtension on LoggerBuilder {
     if (customFields != null && customFields.isNotEmpty) {
       config['customFields'] = customFields;
     }
-    if (archiveTablePrefix != null)
+    if (archiveTablePrefix != null) {
       config['archiveTablePrefix'] = archiveTablePrefix;
+    }
     if (indexColumns != null && indexColumns.isNotEmpty) {
       config['indexColumns'] = indexColumns;
     }
