@@ -28,16 +28,14 @@ class AnyLoggerMySqlExtension {
   static void register() {
     if (_registered) return;
 
-    AppenderRegistry.instance.register(MySqlAppender.appenderName, (config,
-        {test = false, date}) async {
+    AppenderRegistry.instance.register(MySqlAppender.appenderName, (config, {test = false, date}) async {
       return await MySqlAppender.fromConfig(config, test: test, date: date);
     });
 
     _registered = true;
 
     // Log registration if self-debugging is enabled
-    Logger.getSelfLogger()
-        ?.logDebug('MYSQL appender registered with AppenderRegistry');
+    Logger.getSelfLogger()?.logDebug('MYSQL appender registered with AppenderRegistry');
   }
 
   /// Unregisters the MySQL appender (mainly for testing).

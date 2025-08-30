@@ -2,7 +2,7 @@ name: any_logger_mysql
 description: >-
   Store logs in MySQL with automatic table management, batching, rotation, and query API. Perfect for audit trails and log analysis.
 
-version: 1.0.5
+version: 1.0.6
 
 homepage: https://github.com/raoulsson/any_logger_mysql
 repository: https://github.com/raoulsson/any_logger_mysql
@@ -18,7 +18,7 @@ platforms:
   windows:
 
 dependencies:
-  any_logger: ^1.0.8
+  any_logger: ^1.0.10
   mysql1: ^0.20.0
 
 dev_dependencies:

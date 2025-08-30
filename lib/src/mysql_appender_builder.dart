@@ -324,12 +324,10 @@ class MySqlAppenderBuilder {
   Future<MySqlAppender> build({bool test = false, DateTime? date}) async {
     // Validate required fields
     if (!_config.containsKey('host')) {
-      throw ArgumentError(
-          'MySQL host is required. Use withHost() or withConnection() to set it.');
+      throw ArgumentError('MySQL host is required. Use withHost() or withConnection() to set it.');
     }
     if (!_config.containsKey('database')) {
-      throw ArgumentError(
-          'Database name is required. Use withDatabase() or withConnection() to set it.');
+      throw ArgumentError('Database name is required. Use withDatabase() or withConnection() to set it.');
     }
 
     return await MySqlAppender.fromConfig(_config, test: test, date: date);
