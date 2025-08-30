@@ -426,6 +426,7 @@ void main() {
 
     test('should work with convenience extension methods', () async {
       await LoggerFactory.builder()
+          .replaceAll()
           .console(level: Level.INFO)
           .mysqlProduction(
             host: 'prod.db.com',

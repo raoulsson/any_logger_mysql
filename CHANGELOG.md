@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.8
+
+* Missed a test method for LoggerBuilder changes
+
 ## 1.0.7
 
 * Added new appender method for short self description to improve logger config debugging
