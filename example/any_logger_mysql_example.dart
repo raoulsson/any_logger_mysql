@@ -145,8 +145,7 @@ void example2_tableConfig() {
   print('  Table: ${auditConfig['table']}');
   print('  Engine: ${auditConfig['tableEngine']}');
   print('  Rotation: ${auditConfig['enableRotation']}');
-  print(
-      '  Custom fields: ${(auditConfig['customFields'] as Map).keys.join(', ')}');
+  print('  Custom fields: ${(auditConfig['customFields'] as Map).keys.join(', ')}');
 }
 
 /// Example 3: Performance and optimization settings
@@ -293,8 +292,7 @@ Future<void> example5_loggerFactory() async {
   print('  Appenders: ${appenders.length}');
   for (var i = 0; i < appenders.length; i++) {
     final appender = appenders[i];
-    print(
-        '    ${i + 1}. Type: ${appender['type']}, Level: ${appender['level']}');
+    print('    ${i + 1}. Type: ${appender['type']}, Level: ${appender['level']}');
   }
 
   // Initialize in test mode to avoid actual database connections

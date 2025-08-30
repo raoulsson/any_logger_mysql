@@ -690,4 +690,9 @@ class MySqlAppender extends Appender {
 
     return results.map((row) => row.fields).toList();
   }
+
+  @override
+  String getShortConfigDesc() {
+    return 'host: $host:$port, database: $database, table: $table';
+  }
 }
