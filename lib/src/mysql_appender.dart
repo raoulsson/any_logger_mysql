@@ -73,7 +73,8 @@ class MySqlAppender extends Appender {
   MySqlAppender() : super();
 
   /// Factory constructor for configuration-based creation
-  static Future<MySqlAppender> fromConfig(Map<String, dynamic> config, {bool test = false, DateTime? date}) async {
+  static Future<MySqlAppender> fromConfig(Map<String, dynamic> config,
+      {bool test = false, DateTime? date}) async {
     final appender = MySqlAppender()
       ..test = test
       ..created = date ?? DateTime.now();
@@ -121,7 +122,8 @@ class MySqlAppender extends Appender {
       appender.batchSize = config['batchSize'];
     }
     if (config.containsKey('batchIntervalSeconds')) {
-      appender.batchInterval = Duration(seconds: config['batchIntervalSeconds']);
+      appender.batchInterval =
+          Duration(seconds: config['batchIntervalSeconds']);
     }
     if (config.containsKey('usePreparedStatements')) {
       appender.usePreparedStatements = config['usePreparedStatements'];
@@ -132,7 +134,8 @@ class MySqlAppender extends Appender {
       appender.maxReconnectAttempts = config['maxReconnectAttempts'];
     }
     if (config.containsKey('reconnectDelaySeconds')) {
-      appender.reconnectDelay = Duration(seconds: config['reconnectDelaySeconds']);
+      appender.reconnectDelay =
+          Duration(seconds: config['reconnectDelaySeconds']);
     }
 
     // Rotation settings
@@ -164,14 +167,16 @@ class MySqlAppender extends Appender {
 
   /// Synchronous factory - throws since MySQL requires async
   factory MySqlAppender.fromConfigSync(Map<String, dynamic> config) {
-    throw UnsupportedError('MySqlAppender requires async initialization. Use fromConfig() or builder().build()');
+    throw UnsupportedError(
+        'MySqlAppender requires async initialization. Use fromConfig() or builder().build()');
   }
 
   /// Initialize the appender
   Future<void> initialize() async {
     if (_initialized || test) {
       if (test) {
-        Logger.getSelfLogger()?.logInfo('MySqlAppender in test mode - skipping database initialization');
+        Logger.getSelfLogger()?.logInfo(
+            'MySqlAppender in test mode - skipping database initialization');
       }
       return;
     }
@@ -202,7 +207,8 @@ class MySqlAppender extends Appender {
       _initialized = true;
       Logger.getSelfLogger()?.logInfo('MySqlAppender initialized: $this');
     } catch (e) {
-      Logger.getSelfLogger()?.logError('Failed to initialize MySqlAppender: $e');
+      Logger.getSelfLogger()
+          ?.logError('Failed to initialize MySqlAppender: $e');
       _initialized = false;
       rethrow;
     }
@@ -214,7 +220,8 @@ class MySqlAppender extends Appender {
       _connection = await MySqlConnection.connect(_connectionSettings!);
       _lastConnectionCheck = DateTime.now();
       _reconnectAttempts = 0;
-      Logger.getSelfLogger()?.logInfo('MySQL connection established to $host:$port/$database');
+      Logger.getSelfLogger()
+          ?.logInfo('MySQL connection established to $host:$port/$database');
     } catch (e) {
       Logger.getSelfLogger()?.logError('MySQL connection failed: $e');
       throw e;
@@ -224,12 +231,14 @@ class MySqlAppender extends Appender {
   Future<void> _ensureConnection() async {
     // Check if we need to reconnect
     if (_connection == null ||
-        (_lastConnectionCheck != null && DateTime.now().difference(_lastConnectionCheck!).inMinutes > 5)) {
+        (_lastConnectionCheck != null &&
+            DateTime.now().difference(_lastConnectionCheck!).inMinutes > 5)) {
       try {
         await _connection?.query('SELECT 1');
         _lastConnectionCheck = DateTime.now();
       } catch (e) {
-        Logger.getSelfLogger()?.logWarn('Connection test failed, reconnecting...');
+        Logger.getSelfLogger()
+            ?.logWarn('Connection test failed, reconnecting...');
         await _reconnect();
       }
     }
@@ -241,7 +250,8 @@ class MySqlAppender extends Appender {
     }
 
     _reconnectAttempts++;
-    Logger.getSelfLogger()?.logTrace('Reconnecting to MySQL, attempt $_reconnectAttempts');
+    Logger.getSelfLogger()
+        ?.logTrace('Reconnecting to MySQL, attempt $_reconnectAttempts');
     await Future.delayed(reconnectDelay * _reconnectAttempts);
     await _connect();
   }
@@ -311,12 +321,14 @@ class MySqlAppender extends Appender {
         _flushBatch();
       }
     });
-    Logger.getSelfLogger()?.logDebug('Batch timer started with interval: $batchInterval');
+    Logger.getSelfLogger()
+        ?.logDebug('Batch timer started with interval: $batchInterval');
   }
 
   void _startRotationTimer() {
     _rotationTimer?.cancel();
-    _rotationTimer = Timer.periodic(Duration(seconds: rotationCheckInterval), (_) async {
+    _rotationTimer =
+        Timer.periodic(Duration(seconds: rotationCheckInterval), (_) async {
       await _checkAndRotate();
     });
   }
@@ -327,7 +339,8 @@ class MySqlAppender extends Appender {
     try {
       await _ensureConnection();
 
-      var result = await _connection!.query('SELECT COUNT(*) as count FROM $table');
+      var result =
+          await _connection!.query('SELECT COUNT(*) as count FROM $table');
       int rowCount = result.first['count'];
 
       if (rowCount > maxRows) {
@@ -339,7 +352,8 @@ class MySqlAppender extends Appender {
   }
 
   Future<void> _rotateTable() async {
-    String archiveName = '${archiveTablePrefix ?? table}_${DateTime.now().millisecondsSinceEpoch}';
+    String archiveName =
+        '${archiveTablePrefix ?? table}_${DateTime.now().millisecondsSinceEpoch}';
 
     try {
       // Create archive table
@@ -438,7 +452,8 @@ class MySqlAppender extends Appender {
     _logBuffer.clear();
 
     if (test) {
-      Logger.getSelfLogger()?.logTrace('Test mode: would insert ${logs.length} logs to MySQL table $table');
+      Logger.getSelfLogger()?.logTrace(
+          'Test mode: would insert ${logs.length} logs to MySQL table $table');
       _successfulInserts += logs.length;
       _lastInsertTime = DateTime.now();
       return;
@@ -460,7 +475,8 @@ class MySqlAppender extends Appender {
       _successfulInserts += logs.length;
       _lastInsertTime = DateTime.now();
 
-      Logger.getSelfLogger()?.logTrace('Inserted ${logs.length} log records to MySQL');
+      Logger.getSelfLogger()
+          ?.logTrace('Inserted ${logs.length} log records to MySQL');
     } catch (e) {
       _failedInserts += logs.length;
       Logger.getSelfLogger()?.logError('Failed to insert logs to MySQL: $e');
@@ -468,7 +484,8 @@ class MySqlAppender extends Appender {
       if (_logBuffer.length < batchSize * 2) {
         _logBuffer.insertAll(0, logs);
       } else {
-        Logger.getSelfLogger()?.logWarn('Dropping ${logs.length} log records due to buffer overflow');
+        Logger.getSelfLogger()?.logWarn(
+            'Dropping ${logs.length} log records due to buffer overflow');
       }
     }
   }
@@ -526,7 +543,8 @@ class MySqlAppender extends Appender {
     }
 
     for (var log in logs) {
-      values.add('(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?$customPlaceholders)');
+      values.add(
+          '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?$customPlaceholders)');
       params.addAll([
         log.time.toUtc(),
         log.level.name,
@@ -580,7 +598,9 @@ class MySqlAppender extends Appender {
     if (mdcValues.isEmpty) return '{}';
 
     // Simple JSON encoding for MDC
-    final entries = mdcValues.entries.map((e) => '"${e.key}":"${e.value.toString().replaceAll('"', '\\"')}"').join(',');
+    final entries = mdcValues.entries
+        .map((e) => '"${e.key}":"${e.value.toString().replaceAll('"', '\\"')}"')
+        .join(',');
 
     return '{$entries}';
   }

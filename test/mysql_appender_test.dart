@@ -53,7 +53,8 @@ void main() {
       expect(appender.port, equals(3306)); // Default MySQL port
       expect(appender.table, equals('logs')); // Default table name
       expect(appender.batchSize, equals(50)); // Default batch size
-      expect(appender.batchInterval, equals(Duration(seconds: 10))); // Default interval
+      expect(appender.batchInterval,
+          equals(Duration(seconds: 10))); // Default interval
       expect(appender.useSSL, equals(false));
       expect(appender.autoCreateTable, equals(true));
       expect(appender.useCompression, equals(false));
@@ -138,7 +139,8 @@ void main() {
       final appender = await MySqlAppender.fromConfig(config, test: true);
 
       expect(appender.createIndices, equals(true));
-      expect(appender.indexColumns, equals(['timestamp', 'level', 'tag', 'user_id']));
+      expect(appender.indexColumns,
+          equals(['timestamp', 'level', 'tag', 'user_id']));
     });
 
     test('should throw on missing required fields', () {
@@ -340,8 +342,10 @@ void main() {
     });
 
     test('should apply audit preset correctly', () async {
-      final appender =
-          await mySqlAppenderBuilder().withConnection('localhost', 3306, 'test_db').withAuditPreset().build(test: true);
+      final appender = await mySqlAppenderBuilder()
+          .withConnection('localhost', 3306, 'test_db')
+          .withAuditPreset()
+          .build(test: true);
 
       expect(appender.tableEngine, equals('InnoDB'));
       expect(appender.enableRotation, equals(false));
@@ -354,7 +358,8 @@ void main() {
     test('should throw if required fields are missing', () async {
       // Missing host
       expect(
-        () async => await mySqlAppenderBuilder().withDatabase('test_db').build(),
+        () async =>
+            await mySqlAppenderBuilder().withDatabase('test_db').build(),
         throwsA(isA<ArgumentError>()),
       );
 

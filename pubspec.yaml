@@ -18,7 +18,9 @@ platforms:
   windows:
 
 dependencies:
-  any_logger: ^1.0.12
+#  any_logger: ^1.0.12
+  any_logger:
+    path: ../any_logger
   mysql1: ^0.20.0
 
 dev_dependencies:
