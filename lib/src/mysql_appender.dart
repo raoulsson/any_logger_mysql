@@ -266,10 +266,14 @@ class MySqlAppender extends Appender {
         customFieldsSql += ',\n  $name $type';
       });
 
-      // Build index SQL
+      // Build index SQL - but skip the ones already defined
       String indexSql = '';
+      final predefinedIndices = ['timestamp', 'level', 'tag', 'logger_name'];
+
       for (var column in indexColumns) {
-        if (column == 'timestamp' || customFields.containsKey(column)) {
+        // Only add if it's not already in the predefined list
+        if (!predefinedIndices.contains(column) &&
+            customFields.containsKey(column)) {
           indexSql += ',\n  INDEX idx_$column ($column)';
         }
       }
@@ -278,33 +282,33 @@ class MySqlAppender extends Appender {
       String compressionSql = useCompression ? 'ROW_FORMAT=COMPRESSED' : '';
 
       await _connection!.query('''
-        CREATE TABLE IF NOT EXISTS $table (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          timestamp DATETIME(3) NOT NULL,
-          level VARCHAR(10) NOT NULL,
-          level_value INT NOT NULL,
-          tag VARCHAR(255),
-          message TEXT NOT NULL,
-          logger_name VARCHAR(255),
-          class_name VARCHAR(255),
-          method_name VARCHAR(255),
-          file_location VARCHAR(500),
-          line_number INT,
-          error TEXT,
-          stack_trace TEXT,
-          mdc_context JSON,
-          app_version VARCHAR(50),
-          device_id VARCHAR(100),
-          session_id VARCHAR(100),
-          hostname VARCHAR(255)
-          $customFieldsSql,
-          INDEX idx_timestamp (timestamp),
-          INDEX idx_level (level),
-          INDEX idx_tag (tag),
-          INDEX idx_logger_name (logger_name)
-          $indexSql
-        ) ENGINE=$tableEngine DEFAULT CHARSET=$charset $compressionSql
-      ''');
+      CREATE TABLE IF NOT EXISTS $table (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        timestamp DATETIME(3) NOT NULL,
+        level VARCHAR(10) NOT NULL,
+        level_value INT NOT NULL,
+        tag VARCHAR(255),
+        message TEXT NOT NULL,
+        logger_name VARCHAR(255),
+        class_name VARCHAR(255),
+        method_name VARCHAR(255),
+        file_location VARCHAR(500),
+        line_number INT,
+        error TEXT,
+        stack_trace TEXT,
+        mdc_context JSON,
+        app_version VARCHAR(50),
+        device_id VARCHAR(100),
+        session_id VARCHAR(100),
+        hostname VARCHAR(255)
+        $customFieldsSql,
+        INDEX idx_timestamp (timestamp),
+        INDEX idx_level (level),
+        INDEX idx_tag (tag),
+        INDEX idx_logger_name (logger_name)
+        $indexSql
+      ) ENGINE=$tableEngine DEFAULT CHARSET=$charset $compressionSql
+    ''');
 
       _tableChecked = true;
       Logger.getSelfLogger()?.logDebug('Table $table is ready');

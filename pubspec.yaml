@@ -11,16 +11,12 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 platforms:
-  android:
-  ios:
   linux:
   macos:
   windows:
 
 dependencies:
-#  any_logger: ^1.0.12
-  any_logger:
-    path: ../any_logger
+  any_logger: ^1.1.0
   mysql1: ^0.20.0
 
 dev_dependencies:

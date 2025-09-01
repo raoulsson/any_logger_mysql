@@ -1,0 +1,46 @@
+docker exec -it mysql-test mysql -uroot -pgogogo testdb
+
+-- Count by level (fixed for MySQL 5.7)
+SELECT level, COUNT(*) as count
+FROM app_logs
+GROUP BY level
+ORDER BY MIN(level_value);
+
+-- Alternative: include level_value in GROUP BY
+SELECT level, level_value, COUNT(*) as count
+FROM app_logs
+GROUP BY level, level_value
+ORDER BY level_value;
+
+-- Check timestamp precision (milliseconds working?)
+SELECT id, timestamp, message
+FROM app_logs
+ORDER BY timestamp DESC, id DESC;
+
+-- See logs per second (without window functions)
+SELECT
+    DATE_FORMAT(timestamp, '%Y-%m-%d %H:%i:%s') as second,
+    COUNT(*) as logs_in_second
+FROM app_logs
+GROUP BY second
+ORDER BY second DESC;
+
+-- Activity timeline
+SELECT
+    HOUR(timestamp) as hour,
+    MINUTE(timestamp) as minute,
+    COUNT(*) as logs,
+    GROUP_CONCAT(DISTINCT tag) as tags
+FROM app_logs
+GROUP BY hour, minute
+ORDER BY hour DESC, minute DESC;
+
+-- Performance check - see batching working
+SELECT
+    timestamp,
+    COUNT(*) as batch_size,
+    GROUP_CONCAT(SUBSTRING(message, 1, 20)) as messages
+FROM app_logs
+GROUP BY timestamp
+HAVING COUNT(*) > 1
+ORDER BY timestamp DESC;

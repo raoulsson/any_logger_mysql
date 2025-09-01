@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+* Adapting to any_logger 1.1.0 changes
+* Added examples with real MySQL 5.7 instance
+
 ## 1.0.8
 
 * Missed a test method for LoggerBuilder changes
