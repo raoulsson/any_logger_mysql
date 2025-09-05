@@ -18,7 +18,7 @@ A MySQL database appender extension for [Any Logger](https://pub.dev/packages/an
 ```yaml
 dependencies:
   any_logger: ^x.y.z  
-  any_logger_mysql: ^x.y.z  // See Installing
+  any_logger_mysql: ^x.y.z  # See Installing
 ```
 
 To register the MySQL appender you have to import the library
