@@ -2,6 +2,8 @@
 
 A MySQL database appender extension for [Any Logger](https://pub.dev/packages/any_logger) that enables persistent log storage, advanced querying, audit trails, and analytics capabilities with automatic table management and rotation support.
 
+[![Pub Version](https://img.shields.io/pub/v/any_logger_mysql?style=flat-square)](https://pub.dev/packages/any_logger_mysql)
+
 ## Features
 
 - **Automatic Table Management** - Creates and maintains log tables with optimal schema
