@@ -6,24 +6,24 @@ import 'package:any_logger/any_logger.dart';
 import 'package:any_logger_mysql/any_logger_mysql.dart';
 
 // docker exec -it mysql-test mysql -uroot -pyourpassword testdb
-// 
+//
 // -- Count by level (fixed for MySQL 5.7)
 // SELECT level, COUNT(*) as count
 // FROM app_logs
 // GROUP BY level
 // ORDER BY MIN(level_value);
-// 
+//
 // -- Alternative: include level_value in GROUP BY
 // SELECT level, level_value, COUNT(*) as count
 // FROM app_logs
 // GROUP BY level, level_value
 // ORDER BY level_value;
-// 
+//
 // -- Check timestamp precision (milliseconds working?)
 // SELECT id, timestamp, message
 // FROM app_logs
 // ORDER BY timestamp DESC, id DESC;
-// 
+//
 // -- See logs per second (without window functions)
 // SELECT
 //     DATE_FORMAT(timestamp, '%Y-%m-%d %H:%i:%s') as second,
@@ -31,7 +31,7 @@ import 'package:any_logger_mysql/any_logger_mysql.dart';
 // FROM app_logs
 // GROUP BY second
 // ORDER BY second DESC;
-// 
+//
 // -- Activity timeline
 // SELECT
 //     HOUR(timestamp) as hour,
@@ -41,7 +41,7 @@ import 'package:any_logger_mysql/any_logger_mysql.dart';
 // FROM app_logs
 // GROUP BY hour, minute
 // ORDER BY hour DESC, minute DESC;
-// 
+//
 // -- Performance check - see batching working
 // SELECT
 //     timestamp,
@@ -68,7 +68,6 @@ void main() async {
     exit(1);
   }
 }
-
 
 /// Initialize the logger with MySQL configuration
 Future<void> initializeLogger() async {

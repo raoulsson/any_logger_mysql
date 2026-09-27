@@ -72,13 +72,7 @@ extension MySqlPresets on LoggerPresets {
           'batchIntervalSeconds': 1,
           'autoCreateTable': true,
           'createIndices': true,
-          'indexColumns': [
-            'timestamp',
-            'level',
-            'tag',
-            'logger_name',
-            'class_name'
-          ],
+          'indexColumns': ['timestamp', 'level', 'tag', 'logger_name', 'class_name'],
         }
       ]
     };
@@ -169,13 +163,7 @@ extension MySqlPresets on LoggerPresets {
             'request_id': 'VARCHAR(100)',
           },
           'createIndices': true,
-          'indexColumns': [
-            'timestamp',
-            'user_id',
-            'action',
-            'result',
-            'session_id'
-          ],
+          'indexColumns': ['timestamp', 'user_id', 'action', 'result', 'session_id'],
         }
       ]
     };
@@ -263,13 +251,7 @@ extension MySqlPresets on LoggerPresets {
             'environment': 'VARCHAR(20)',
           },
           'createIndices': true,
-          'indexColumns': [
-            'timestamp',
-            'level',
-            'service_name',
-            'trace_id',
-            'correlation_id'
-          ],
+          'indexColumns': ['timestamp', 'level', 'service_name', 'trace_id', 'correlation_id'],
         }
       ]
     };

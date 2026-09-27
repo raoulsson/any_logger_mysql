@@ -11,7 +11,8 @@ void main() async {
       host: 'localhost',
       port: 3306,
       user: 'root',
-      password: 'yourpassword',  // Your actual password
+      password: 'yourpassword',
+      // Your actual password
       db: 'testdb',
       timeout: Duration(seconds: 10),
     );
@@ -62,7 +63,7 @@ void main() async {
       INSERT INTO app_logs (
         timestamp, level, level_value, tag, message, logger_name,
         class_name, method_name, file_location, line_number,
-        error, stack_trace, mdc_context, app_version, device_id, 
+        error, stack_trace, mdc_context, app_version, device_id,
         session_id, hostname
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', [
@@ -88,9 +89,8 @@ void main() async {
 
     // Test 5: Read back the log
     print('Test 5: Reading logs...');
-    results = await conn.query(
-        'SELECT * FROM app_logs ORDER BY id DESC LIMIT 1'
-    );
+    results =
+        await conn.query('SELECT * FROM app_logs ORDER BY id DESC LIMIT 1');
     for (var row in results) {
       print('✓ Found log: ${row['message']}\n');
     }
@@ -99,18 +99,68 @@ void main() async {
     print('Test 6: Testing batch insert...');
     var batch = await conn.queryMulti(
         'INSERT INTO app_logs (timestamp, level, level_value, tag, message, logger_name, '
-            'class_name, method_name, file_location, line_number, error, stack_trace, '
-            'mdc_context, app_version, device_id, session_id, hostname) '
-            'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'class_name, method_name, file_location, line_number, error, stack_trace, '
+        'mdc_context, app_version, device_id, session_id, hostname) '
+        'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
-          [DateTime.now().toUtc(), 'DEBUG', 500, 'BATCH', 'Batch message 1', 'TestLogger',
-            null, null, null, null, null, null, '{}', '1.0.0', null, null, 'localhost'],
-          [DateTime.now().toUtc(), 'INFO', 800, 'BATCH', 'Batch message 2', 'TestLogger',
-            null, null, null, null, null, null, '{}', '1.0.0', null, null, 'localhost'],
-          [DateTime.now().toUtc(), 'WARN', 900, 'BATCH', 'Batch message 3', 'TestLogger',
-            null, null, null, null, null, null, '{}', '1.0.0', null, null, 'localhost'],
-        ]
-    );
+          [
+            DateTime.now().toUtc(),
+            'DEBUG',
+            500,
+            'BATCH',
+            'Batch message 1',
+            'TestLogger',
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            '{}',
+            '1.0.0',
+            null,
+            null,
+            'localhost'
+          ],
+          [
+            DateTime.now().toUtc(),
+            'INFO',
+            800,
+            'BATCH',
+            'Batch message 2',
+            'TestLogger',
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            '{}',
+            '1.0.0',
+            null,
+            null,
+            'localhost'
+          ],
+          [
+            DateTime.now().toUtc(),
+            'WARN',
+            900,
+            'BATCH',
+            'Batch message 3',
+            'TestLogger',
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            '{}',
+            '1.0.0',
+            null,
+            null,
+            'localhost'
+          ],
+        ]);
     print('✓ Batch insert completed\n');
 
     // Test 7: Count logs
@@ -124,7 +174,6 @@ void main() async {
     print('═══════════════════════════════════════');
     print('All tests passed! MySQL connection is working correctly.');
     print('Your MySqlAppender should work with these settings.');
-
   } catch (e, stackTrace) {
     print('❌ Connection failed: $e');
     print('\nStack trace:');
